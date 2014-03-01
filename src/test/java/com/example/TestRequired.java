@@ -25,6 +25,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(Arquillian.class)
 public class TestRequired {
+    public static final String CONTENT = "content: \'%s\'";
     @ArquillianResource
     private URL webappUrl;
 
@@ -40,16 +41,10 @@ public class TestRequired {
     }
 
     @Test
-    public void test() {
-        System.out.println(webappUrl);
-        assertTrue(true);
-    }
-
-    @Test
     public void testCatalogIsReturned() throws IOException, URISyntaxException {
         final HttpGet get = new HttpGet(normalize(webappUrl.toURI(), "rest/catalogs"));
         final String content = execute(get);
-        System.out.println("content: \'"+content+"\'");
+        System.out.println(String.format(CONTENT, content));
         assertTrue(content.contains("root"));
     }
 
@@ -57,7 +52,7 @@ public class TestRequired {
     public void testCatalogWithOneChildIsReturned() throws URISyntaxException, IOException {
         final HttpGet get = new HttpGet(normalize(webappUrl.toURI(), "rest/catalogs/filledChild"));
         final String content = execute(get);
-        System.out.println("content: \'"+content+"\'");
+        System.out.println(String.format(CONTENT, content));
         assertTrue(content.contains("children"));
     }
 
@@ -65,7 +60,7 @@ public class TestRequired {
     public void testCatalogWithTwoChildrenIsReturned() throws URISyntaxException, IOException {
         final HttpGet get = new HttpGet(normalize(webappUrl.toURI(),"rest/catalogs/twoChildren"));
         final String content = execute(get);
-        System.out.println("content: \'"+content+"\'");
+        System.out.println(String.format(CONTENT, content));
         assertTrue(content.contains("child 2"));
     }
 
@@ -73,7 +68,7 @@ public class TestRequired {
     public void testJacksonProcessor() throws URISyntaxException, IOException {
         final HttpGet get = new HttpGet(normalize(webappUrl.toURI(), "rest/jackson"));
         final String content = execute(get);
-        System.out.println("content :\'"+content+"\'");
+        System.out.println(String.format(CONTENT, content));
         assertEquals("[\"Peter\",\"pan\",\"Ihihi\"]", content);
     }
 
@@ -81,14 +76,13 @@ public class TestRequired {
     public void testGetChildWithChildren() throws URISyntaxException, IOException {
         final HttpGet get = new HttpGet(normalize(webappUrl.toURI(), "rest/catalogs/childwithChildren"));
         final String content = execute(get);
-        System.out.println(String.format("content: \'%s\'", content));
+        System.out.println(String.format(CONTENT, content));
         Pattern p = Pattern.compile("children");
         Matcher m = p.matcher(content);
         int count = 0;
         while (m.find()){
             count +=1;
         }
-        System.out.println(count);
         assertEquals(4, count);
     }
 }
