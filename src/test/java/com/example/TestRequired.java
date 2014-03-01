@@ -1,10 +1,6 @@
 package com.example;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.ziplock.IO;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -13,22 +9,20 @@ import org.jboss.shrinkwrap.api.GenericArchive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.importer.ExplodedImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.example.RestClient.execute;
 import static com.example.RestClient.normalize;
+import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by ron on 3/1/14.
- */
 @RunWith(Arquillian.class)
 public class TestRequired {
     @ArquillianResource
@@ -56,7 +50,7 @@ public class TestRequired {
         final HttpGet get = new HttpGet(normalize(webappUrl.toURI(), "rest/catalogs"));
         final String content = execute(get);
         System.out.println("content: \'"+content+"\'");
-        Assert.assertTrue(content.contains("root"));
+        assertTrue(content.contains("root"));
     }
 
     @Test
@@ -64,7 +58,7 @@ public class TestRequired {
         final HttpGet get = new HttpGet(normalize(webappUrl.toURI(), "rest/catalogs/filledChild"));
         final String content = execute(get);
         System.out.println("content: \'"+content+"\'");
-        Assert.assertTrue(content.contains("children"));
+        assertTrue(content.contains("children"));
     }
 
     @Test
@@ -72,7 +66,7 @@ public class TestRequired {
         final HttpGet get = new HttpGet(normalize(webappUrl.toURI(),"rest/catalogs/twoChildren"));
         final String content = execute(get);
         System.out.println("content: \'"+content+"\'");
-        Assert.assertTrue(content.contains("child 2"));
+        assertTrue(content.contains("child 2"));
     }
 
     @Test
@@ -80,6 +74,21 @@ public class TestRequired {
         final HttpGet get = new HttpGet(normalize(webappUrl.toURI(), "rest/jackson"));
         final String content = execute(get);
         System.out.println("content :\'"+content+"\'");
-        Assert.assertEquals("[\"Peter\",\"pan\",\"Ihihi\"]", content);
+        assertEquals("[\"Peter\",\"pan\",\"Ihihi\"]", content);
+    }
+
+    @Test
+    public void testGetChildWithChildren() throws URISyntaxException, IOException {
+        final HttpGet get = new HttpGet(normalize(webappUrl.toURI(), "rest/catalogs/childwithChildren"));
+        final String content = execute(get);
+        System.out.println(String.format("content: \'%s\'", content));
+        Pattern p = Pattern.compile("children");
+        Matcher m = p.matcher(content);
+        int count = 0;
+        while (m.find()){
+            count +=1;
+        }
+        System.out.println(count);
+        assertEquals(4, count);
     }
 }
