@@ -1,4 +1,4 @@
-xml-required-test
+[![Build Status](https://travis-ci.org/ronsmits/xml-required-test.png?branch=master)](https://travis-ci.org/ronsmits/xml-required-test) xml-required-test
 =================
 
 Simple test project to play with XMLElement(required=true)
