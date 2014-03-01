@@ -1,7 +1,6 @@
 package com.example.rest;
 
 import com.example.entities.Catalog;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -15,30 +14,39 @@ import javax.ws.rs.core.MediaType;
 public class CatalogResource {
 
     @GET
-    public Catalog getCatalog(){
-        Catalog catalog = fillCatalog();
+    public Catalog getCatalog() {
+	Catalog catalog = fillCatalog();
 
-        return catalog;
+	return catalog;
     }
 
     @GET
     @Path("filledChild")
-    public Catalog getCatalogWithFilledChildren(){
-        Catalog catalog = fillCatalog();
-        catalog.addChild(new Catalog("1.1", "child 1"));
-        return catalog;
+    public Catalog getCatalogWithFilledChildren() {
+	Catalog catalog = fillCatalog();
+	catalog.addChild(new Catalog("1.1", "child 1"));
+	return catalog;
     }
 
     @GET
     @Path("twoChildren")
-    public Catalog getCatalogWith2Children () {
-        Catalog catalog = getCatalogWithFilledChildren();
-        catalog.addChild(new Catalog("1.2", "child 2"));
-        return catalog;
+    public Catalog getCatalogWith2Children() {
+	Catalog catalog = getCatalogWithFilledChildren();
+	catalog.addChild(new Catalog("1.2", "child 2"));
+	return catalog;
+    }
+
+    @GET
+    @Path("childwithChildren")
+    public Catalog getChildWithChildren() {
+	Catalog catalog = fillCatalog();
+	Catalog kids = getCatalogWith2Children();
+	catalog.addChild(kids);
+	return catalog;
     }
 
     private Catalog fillCatalog() {
-        Catalog cat = new Catalog("1", "root");
-        return cat;
+	Catalog cat = new Catalog("1", "root");
+	return cat;
     }
 }
