@@ -29,6 +29,14 @@ public class CatalogResource {
         return catalog;
     }
 
+    @GET
+    @Path("twoChildren")
+    public Catalog getCatalogWith2Children () {
+        Catalog catalog = getCatalogWithFilledChildren();
+        catalog.addChild(new Catalog("1.2", "child 2"));
+        return catalog;
+    }
+
     private Catalog fillCatalog() {
         Catalog cat = new Catalog("1", "root");
         return cat;

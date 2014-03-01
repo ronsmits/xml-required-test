@@ -66,4 +66,20 @@ public class TestRequired {
         System.out.println("content: \'"+content+"\'");
         Assert.assertTrue(content.contains("children"));
     }
+
+    @Test
+    public void testCatalogWithTwoChildrenIsReturned() throws URISyntaxException, IOException {
+        final HttpGet get = new HttpGet(normalize(webappUrl.toURI(),"rest/catalogs/twoChildren"));
+        final String content = execute(get);
+        System.out.println("content: \'"+content+"\'");
+        Assert.assertTrue(content.contains("child 2"));
+    }
+
+    @Test
+    public void testJacksonProcessor() throws URISyntaxException, IOException {
+        final HttpGet get = new HttpGet(normalize(webappUrl.toURI(), "rest/jackson"));
+        final String content = execute(get);
+        System.out.println("content :\'"+content+"\'");
+        Assert.assertEquals("[\"Peter\",\"pan\",\"Ihihi\"]", content);
+    }
 }

@@ -15,7 +15,7 @@ import java.util.Collection;
 public class Catalog {
     private String id;
     private String name;
-    @XmlElement(nillable = true)
+    @XmlElement(nillable = true, required = true)
     private Collection<Catalog> children = new ArrayList<>();
     private Catalog parent;
 
