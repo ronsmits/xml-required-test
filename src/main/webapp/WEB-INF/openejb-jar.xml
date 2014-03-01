@@ -1,5 +1,5 @@
 <openejb-jar xmlns="http://www.openejb.org/openejb-jar/1.1">
-    <pojo-deployment class-name="com.example.entities.com.example.rest.RestApp">
+    <pojo-deployment class-name="com.example.rest.RestApp">
         <properties>
             cxf.jaxrs.providers = org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider
         </properties>

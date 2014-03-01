@@ -1,4 +1,4 @@
-package com.example.entities.com.example.rest;
+package com.example.rest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

@@ -1,4 +1,4 @@
-package com.example.entities.com.example.rest;
+package com.example.rest;
 
 import com.example.entities.Catalog;
 

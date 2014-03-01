@@ -1,4 +1,4 @@
-package com.example.entities.com.example.rest;
+package com.example.rest;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
